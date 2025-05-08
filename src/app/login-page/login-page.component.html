@@ -1,0 +1,123 @@
+<section class="vh-100">
+  <div class="container py-5 h-100">
+    <div
+      class="row d-flex align-items-center justify-content-center h-100 gap-5"
+    >
+      <!-- Left Image -->
+      <div class="col-md-8 col-lg-6 col-xl-5">
+        <img
+          src="/Assets/symbol.svg"
+          class="img-fluid d-block mx-auto my-3 w-25"
+          alt="Symbol"
+        />
+
+        <p class="text-center fw-bold mb-4 fs-4">
+          Access the World of Porsche.
+        </p>
+        <img src="/Assets/login.svg" class="img-fluid" alt="Phone image" />
+      </div>
+
+      <!-- Right Form -->
+      <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmitForm()">
+          <!-- Email input -->
+          <div class="form-outline mb-4">
+            <label class="form-label" for="email">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              [class.is-invalid]="
+                getcontrolName('email')?.invalid &&
+                getcontrolName('email')?.touched
+              "
+              formControlName="email"
+              class="form-control form-control-lg"
+              placeholder="e.g. example@email.com"
+            />
+            <div
+              *ngIf="
+                getcontrolName('email')?.invalid &&
+                getcontrolName('email')?.touched
+              "
+            >
+              <small
+                class="text-danger"
+                *ngIf="getcontrolName('email')?.errors?.['required']"
+              >
+                Email is required
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="getcontrolName('email')?.errors?.['email']"
+              >
+                Please enter a valid email format
+              </small>
+            </div>
+          </div>
+
+          <!-- Password input -->
+          <div class="form-outline mb-4">
+            <label class="form-label" for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              class="form-control form-control-lg"
+              formControlName="password"
+              placeholder="Enter your password"
+            />
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <!-- Checkbox -->
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="rememberMe"
+                formControlName="rememberMe"
+              />
+              <label class="form-check-label" for="rememberMe">
+                Remember me
+              </label>
+            </div>
+
+            <!-- Register Link -->
+            <a routerLink="/signup" class="text-decoration-none"
+              >Don't have an account?
+              <span class="text-primary">Register</span></a
+            >
+          </div>
+
+          <!-- Sign in button -->
+          <button
+            type="submit"
+            [disabled]="!loginForm.valid"
+            class="btn btn-primary btn-lg btn-block w-100 mb-3"
+          >
+            Sign In
+          </button>
+
+          <div *ngIf="errorMessage" class="error-message text-danger">
+            {{ errorMessage }}
+          </div>
+
+          <!-- Divider -->
+          <div class="divider d-flex align-items-center my-4">
+            <p class="text-center fw-bold mx-3 mb-0">OR Continue With</p>
+          </div>
+
+          <!-- Social login icons -->
+          <div class="d-flex justify-content-center gap-4">
+            <a href="https://www.facebook.com/porsche" class="text-decoration-none">
+              <i class="fab fa-facebook fa-2x"></i>
+            </a>
+
+            <a href="https://mail.google.com/mail/u/0/" class="text-decoration-none">
+              <i class="fab fa-google fa-2x"></i>
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

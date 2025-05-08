@@ -1,0 +1,63 @@
+<div class="container mt-5 text-center" *ngIf="isLoading">
+  <div class="spinner-border text-primary" role="status"></div>
+</div>
+
+<div class="container mt-5" *ngIf="!isLoading && errorShown">
+  <div class="alert alert-danger text-center w-50 mx-auto mt-2">
+    <h1>Error fetching data.</h1>
+  </div>
+</div>
+
+<div class="container-fluid mt-2 px-3" *ngIf="!isLoading && !errorShown && internshipsList.length > 0">
+    <h2 class="mb-3"> Available Internships</h2>
+    <table class="table border-top table-striped align-middle bg-white w-100">
+      <thead class="bg-light">
+        <tr>
+          <th>Title</th>
+          <th>Department</th>
+          <th>Location</th>
+          <th>Status</th>
+          <th>Type</th>
+          <th>Academic Level</th>
+          <th>Applications</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let intern of internshipsList">
+          <td>
+            <p class="fw-bold mb-1">{{ intern.title }}</p>
+            <p class="text-muted mb-0">Posted: {{ intern.postingDate }}</p>
+          </td>
+          <td>{{ intern.department }}</td>
+          <td>{{ intern.location }}</td>
+          <td>
+            <div class="d-flex flex-column align-items-center">
+              <span class="badge rounded-pill px-3 py-2 d-inline-block text-center" style="min-width: 90px;" [ngClass]="{
+                'bg-success': intern.status === 'Open',
+                'bg-danger': intern.status === 'Filled'
+              }">
+                {{ intern.status }}
+              </span>
+              <small class="text-muted">{{ getStatusMessage(intern.applicantsCount || 0) }}</small>
+            </div>
+          </td>
+          <td>{{ intern.type }}</td>
+          <td>{{ intern.academicLevel }}</td>
+          <td>
+            <button class="btn btn-primary" 
+                    [disabled]="intern.status === 'Filled'"
+                    (click)="applyForInternship(intern)">
+              Apply
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+
+<div class="container mt-5" *ngIf="!isLoading && !errorShown && internshipsList.length === 0">
+  <div class="alert alert-danger text-center w-50 mx-auto mt-2">
+    <h1>No internships available.</h1>
+  </div>
+</div>
+
