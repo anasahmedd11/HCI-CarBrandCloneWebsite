@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { TestdriveService } from '../../../services/Firebase/testdrive.service';
 import { TestDrive } from '../../../Model/testDrive';
@@ -10,22 +10,14 @@ import { TestDrive } from '../../../Model/testDrive';
 })
 export class TestDriveFormComponentComponent {
   @ViewChild('testDriveForm', { static: true }) testDriveForm: NgForm;
+  @Output() viewDetails = new EventEmitter<void>();
 
-  gendersList = ["Male", "Female", "Rather not to say"];
-  phonePattern = "^\\+?[0-9]{10}$";
+  phonePattern = "^\\+?[0-9]{11}$";
 
   isSubmitted: boolean= false;
 
-  defaultSelectionDD1 = 'opt1';
-  defaultSelectionDD2 = 'opt1';
-
-  testDriveArray: TestDrive[] = [];
-
-  showTestDrivesDetails: boolean = false;
-
-  isLoading: boolean = false;
-
-  errorShown: boolean = false;
+  defaultSelectionDD1 = '';
+  defaultSelectionDD2 = '';
 
   constructor(private testDriveService: TestdriveService) { }
   
@@ -43,31 +35,7 @@ export class TestDriveFormComponentComponent {
     this.testDriveForm.reset();
   }
 
-  viewTestDrive() {
-    this.isLoading = true;
-    this.showTestDrivesDetails = true;
-    this.testDriveService.getTestDrives().subscribe({
-      next: (testDriveArray) => {
-        this.testDriveArray = testDriveArray;
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('Error fetching test drives:', error);
-        this.isLoading = false;
-        this.errorShown = true;
-      }
-    });
-  }
-
-  CancelTestDrive(id: string) {
-    this.testDriveService.deleteTestDrive(id).subscribe({
-      next: () => {
-        // Show only the remaining test drives ensuring instant UI update
-        this.testDriveArray = this.testDriveArray.filter(test => test.id !== id);
-      },
-      error: (error) => {
-        console.error('Error deleting test drive:', error);
-      }
-    });
+  viewTestDriveDetails() {
+    this.viewDetails.emit();
   }
 }

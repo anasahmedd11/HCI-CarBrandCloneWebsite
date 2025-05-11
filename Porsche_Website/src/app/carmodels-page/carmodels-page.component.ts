@@ -12,7 +12,7 @@ import { CartService } from '../services/cart.service';
 export class CarmodelsPageComponent {
 
   vehiclesList: VehicleModel[] = [];
-  filteredVehicles: VehicleModel[] = [];
+  filteredVehiclesList: VehicleModel[] = [];
   selectedCategory: string = 'All';
   categoriesList = [
     'All',
@@ -29,15 +29,15 @@ export class CarmodelsPageComponent {
 
   ngOnInit(): void {
     this.vehiclesList = this.modelsService.getVehicles();
-    this.filteredVehicles = this.vehiclesList;
+    this.filteredVehiclesList = this.vehiclesList;
   }
 
   filterByCategory(category: string): void {
     this.selectedCategory = category;
     if (!category || category === 'All') {
-      this.filteredVehicles = [...this.vehiclesList];
+      this.filteredVehiclesList = [...this.vehiclesList];
     } else {
-      this.filteredVehicles = this.vehiclesList.filter(vehicle => vehicle.category === category);
+      this.filteredVehiclesList = this.modelsService.getVehicleByCategory(category);
     }
   }
 

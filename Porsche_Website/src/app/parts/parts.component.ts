@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CarPartModel } from '../Model/parts';
 import { PartsService } from '../services/parts.service';
 import { DealershipLocationsService } from '../services/dealership-locations.service';
@@ -8,41 +8,45 @@ import { DealershipLocationsService } from '../services/dealership-locations.ser
   templateUrl: './parts.component.html',
   styleUrl: './parts.component.scss'
 })
-export class PartsComponent {
-  parts: CarPartModel[] = [];
-  filteredParts: CarPartModel[] = [];
+export class PartsComponent implements OnInit {
+  partsList: CarPartModel[] = [];
+  filteredPartsList: CarPartModel[] = [];
   selectedCategory: string = 'All';
   categoriesList: string[] = ['All', 'Available', 'Interior', 'Exterior', 'Mechanical', 'Suspension', 'Wheels', 'Electrical'];
 
-  constructor(private partsService: PartsService, private dealershipService: DealershipLocationsService) { 
+  constructor(private partsService: PartsService, private dealershipService: DealershipLocationsService) { }
+
+  ngOnInit(){
+    this.partsList = this.partsService.getParts();
+    this.filteredPartsList = this.partsList;
   }
 
-  ngOnInit(): void {
-    this.parts = this.partsService.getParts();
-    this.filteredParts = this.parts;
-  }
-
-  filterByCategory(category: string): void {
-    this.selectedCategory = category;
-    if (!category || category === 'All') {
-      this.filteredParts = this.parts;
+  filterByCategory(selectedCategory: string): void {
+    this.selectedCategory = selectedCategory;
+    if (!selectedCategory || selectedCategory === 'All') {
+      this.filteredPartsList = this.partsList;
       return;
     }
     
-    else if (category === 'Available') {
-      this.filteredParts = this.parts.filter(part => part.availability);
+    else if (selectedCategory === 'Available') {
+      this.filteredPartsList = this.partsList.filter(part => part.availability);
     } 
     else {
-      this.filteredParts = this.parts.filter(part => 
-        part.category.toLowerCase() === category.toLowerCase()
-      );
-       //this.filteredParts = this.partsService.getPartsByCategory(category);
+      //Option 1: Server-side filtering. Instead of filtering the data in the browser, call partsService to get the filtered data directly. 
+      //This approach is more efficient if you have a large dataset
+       this.filteredPartsList = this.partsService.getPartsByCategory(selectedCategory);
+
+      //Option 2: Client-side filtering. Filter the data in the browser. 
+      //This approach is simpler for smaller datasets.
+      // this.filteredPartsList = this.partsList.filter(part => 
+      //   part.category.toLowerCase() === selectedCategory.toLowerCase()
+      // );
     }  
   }
 
   getStoreNames(storeIds: number[]): string {
     return storeIds.map(id => {
-      const store = this.dealershipService.dealershipLocations.find(store => store.id === id);
+      const store = this.dealershipService.getDealershipLocations().find(store => store.id === id);
       return store ? store.city + " Store" : '';
     }).filter(Boolean).join(', ');
   }

@@ -1,13 +1,13 @@
 <section class="background-radial-gradient overflow-hidden">
 
-    <div class="container px-4 py-5 px-md-5 text-center text-lg-start">
+    <div class="container px-4 py-5 px-md-5 text-start">
       <div class="row gx-lg-5 align-items-center">
         <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
           <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
             Schedule a Test Drive <br />
             <span style="color: hsl(218, 81%, 75%)">to feel the power.</span>
           </h1>
-          <p class="mb-4 opacity-70" style="color: hsl(218, 81%, 85%)">
+          <p class="mb-4" style="color: hsl(218, 81%, 85%)">
             After completing the form, a member of our team will be in touch with you shortly. 
             If you would like to speak to someone and learn more about how we can help, 
             please don't hesitate to reach out to a member of our team.
@@ -17,10 +17,11 @@
         
           <div class="mt-5">
             <h1 class="fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">Already scheduled one?</h1>
-            <button class="btn btn-primary" (click)="viewTestDrive()">
+            <button class="btn btn-primary" (click)="viewTestDriveDetails()">
               View Details <i class="bi bi-arrow-down"></i> 
             </button>            
           </div>
+
         </div>
   
         <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
@@ -39,7 +40,6 @@
                         <small class="text-danger fw-bold" *ngIf="fullname.errors['required']">Name is required</small>
                         <small class="text-danger fw-bold" *ngIf="fullname.errors['minlength']">Name must be at least 3 characters</small>
                         <small class="text-danger fw-bold" *ngIf="fullname.errors['maxlength']">Name cannot exceed 20 characters</small>
-
                     </div>
                 </div>
                 
@@ -54,17 +54,17 @@
 
                 <div class="col-md-6 mb-4">
                     <label class="form-label text-white" for="phonenumber">Phone Number</label>
-                    <input type="text" name="phonenumber" #phonenumber="ngModel" ngModel required [pattern]="phonePattern" id="phonenumber" class="form-control" placeholder="(e.g. +1234567890)"/>  
+                    <input type="text" name="phonenumber" #phonenumber="ngModel" ngModel required [pattern]="phonePattern" id="phonenumber" class="form-control" placeholder="(e.g. +01234567890)"/>  
                     <div *ngIf="phonenumber.touched && phonenumber.errors">
                         <small class="text-danger fw-bold" *ngIf="phonenumber.errors['required']">Phone number is required</small>
-                        <small class="text-danger fw-bold" *ngIf="phonenumber.errors['pattern']">Please enter a valid 10-digit phone number (with optional + prefix)</small>
+                        <small class="text-danger fw-bold" *ngIf="phonenumber.errors['pattern']">Please enter a valid 11-digit phone number</small>
                     </div>
                 </div>
   
                 <div class="col-md-6 mb-4">
                     <label class="form-label text-white" for="models">Vehicle Model</label>
-                    <select id="models" name="models" #model="ngModel" ngModel required class="form-select" [ngModel]="defaultSelectionDD1">
-                      <option value="opt1">Select Model</option>
+                    <select id="models" name="models" #model="ngModel" [(ngModel)]="defaultSelectionDD1" required class="form-select">
+                      <option value="">Select Model</option>
                       <option value="718 Cayman">718 Cayman</option>
                       <option value="718 Boxster">718 Boxster</option>
                       <option value="718 Boxster S">718 Boxster S</option>
@@ -85,12 +85,12 @@
                     <div *ngIf="model.touched && model.errors">
                         <small class="text-danger fw-bold" *ngIf="model.errors['required']">Please select a vehicle model</small>
                     </div>
-                </div>
+              </div>
 
                 <div class="col-md-6 mb-4">
                     <label class="form-label text-white" for="year">Model Year</label>
-                    <select id="year" name="year" #year="ngModel" ngModel required class="form-select" [ngModel]="defaultSelectionDD2">
-                      <option value="opt1">Select Year</option>
+                    <select id="year" name="year" #year="ngModel" [(ngModel)]="defaultSelectionDD2" required class="form-select">
+                      <option value="">Select Year</option>
                       <option value="2025">2025</option>
                       <option value="2024">2024</option>
                       <option value="2023">2023</option>
@@ -112,56 +112,3 @@
       </div>
     </div>
 </section>
-
-<ng-container *ngIf="showTestDrivesDetails">
-  <div class="container mt-5" *ngIf="!isLoading && !errorShown">
-    <div class="row" *ngIf="testDriveArray.length > 0; else noTestDrives">
-      <div class="col-12">
-        <h2 class="mb-4">Test Drive Details</h2>
-        <div class="row">
-          <div class="col-md-4 mb-4" *ngFor="let userTest of testDriveArray">
-            <div class="card">
-              <div class="card-body">
-                <p class="card-text">
-                  <strong>Name:</strong> {{ userTest.fullname }}
-                </p>
-                <p class="card-text">
-                  <strong>Email:</strong> {{ userTest.email }}
-                </p>
-                <p class="card-text">
-                  <strong>Phone:</strong> {{ userTest.phonenumber }}
-                </p>
-                <p class="card-text">
-                  <strong>Car Model:</strong> {{ userTest.models }}
-                </p>
-                <p class="card-text">
-                  <strong>Car Model Year:</strong> {{ userTest.year }}
-                </p>
-                <p class="card-text">
-                  <strong>Registration Date:</strong> {{ userTest.timestamp | date:'medium' }}
-                </p>
-                <button class="btn btn-danger" (click)="CancelTestDrive(userTest.id)">Cancel Test Drive</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> 
-
-  <div class="container mt-5 text-center" *ngIf="isLoading">
-    <div class="spinner-border text-primary" role="status"></div>
-  </div>
-
-  <div class="container mt-5" *ngIf="errorShown">
-    <div class="alert alert-danger text-center w-50 mx-auto mt-2">
-      <h1>Error fetching data.</h1>
-    </div>
-  </div>
-
-  <ng-template #noTestDrives>
-    <div class="alert alert-danger text-center w-50 mx-auto mt-2">
-      <h1>No test drives scheduled yet.</h1>
-    </div>
-  </ng-template>
-</ng-container>

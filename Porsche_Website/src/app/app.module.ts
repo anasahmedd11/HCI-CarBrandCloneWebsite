@@ -35,6 +35,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { environment } from '../environments/environment';
+import { TestDriveDetailsComponent } from './TestDrivePage/Details/test-drive-details/test-drive-details.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { environment } from '../environments/environment';
     CarmodelsPageComponent,
     CarmodelsDetailsPageComponent,
     CartComponent,
+    TestDriveDetailsComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,20 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   constructor(private afAuth: AngularFireAuth, private router: Router) { }
-
-  //Returns an Observable of the authentication state.
-  //Automatically emits whenever the authentication state changes
-  //Useful for real-time subscription in components using async pipe
-  get user$() {
-    return this.afAuth.authState;
-  }
 
   // Email/Password Auth
   async signUp(email: string, password: string) {
@@ -29,6 +21,13 @@ export class AuthService {
   async logout() {
     await this.afAuth.signOut();
     this.router.navigate(['/login']);
+  }
+
+  //Returns an Observable of the authentication state.
+  //Automatically emits whenever the authentication state changes
+  //Useful for real-time subscription in components using async pipe
+  get user$() {
+    return this.afAuth.authState;
   }
 
   //Returns a Promise that resolves to the current authenticated user, or null if not logged in.

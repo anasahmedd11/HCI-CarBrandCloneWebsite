@@ -8,6 +8,10 @@ export class DealershipLocationsService {
 
   constructor() { }
 
+  getDealershipLocations(): DealershipLocationModel[] {
+    return this.dealershipLocations;
+  }
+
   dealershipLocations: DealershipLocationModel[] = [
     {
       id: 1,

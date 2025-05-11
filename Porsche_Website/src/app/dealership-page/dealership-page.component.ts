@@ -15,7 +15,7 @@ export class DealershipPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dealershipLocationList = this.DealershipLocationsService.dealershipLocations;
+    this.dealershipLocationList = this.DealershipLocationsService.getDealershipLocations();
     this.filteredLocationList = this.dealershipLocationList;
   }
 

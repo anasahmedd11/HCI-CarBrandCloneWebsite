@@ -1,4 +1,7 @@
-<app-test-drive-form-component></app-test-drive-form-component>
+<app-test-drive-form-component (viewDetails)="showDetails()"></app-test-drive-form-component>
 
 <app-test-drive-modal-component></app-test-drive-modal-component>
+
+<app-test-drive-details *ngIf="showDetailsSection"></app-test-drive-details>
+
 

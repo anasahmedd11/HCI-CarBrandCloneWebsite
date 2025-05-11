@@ -1,0 +1,54 @@
+<ng-container *ngIf="showTestDrivesDetails">
+    <div class="container mt-5" *ngIf="!isLoading && !errorShown">
+      <div class="row" *ngIf="testDriveArray.length > 0; else noTestDrives">
+        <div class="col-12">
+          <h2 class="mb-4">Test Drive Details</h2>
+          <div class="row">
+            <div class="col-md-4 mb-4" *ngFor="let userTest of testDriveArray">
+              <div class="card">
+                <div class="card-body">
+                  <p class="card-text">
+                    <strong>Name:</strong> {{ userTest.fullname }}
+                  </p>
+                  <p class="card-text">
+                    <strong>Email:</strong> {{ userTest.email }}
+                  </p>
+                  <p class="card-text">
+                    <strong>Phone:</strong> {{ userTest.phonenumber }}
+                  </p>
+                  <p class="card-text">
+                    <strong>Car Model:</strong> {{ userTest.models }}
+                  </p>
+                  <p class="card-text">
+                    <strong>Car Model Year:</strong> {{ userTest.year }}
+                  </p>
+                  <p class="card-text">
+                    <strong>Registration Date:</strong> {{ userTest.timestamp | date:'medium' }}
+                  </p>
+                  <button class="btn btn-danger" (click)="CancelTestDrive(userTest.id)">Cancel Test Drive</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+  
+    <div class="container mt-5 text-center" *ngIf="isLoading">
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+  
+    <div class="container mt-5" *ngIf="errorShown">
+      <div class="alert alert-danger text-center w-50 mx-auto mt-2">
+        <h1>Error fetching data.</h1>
+      </div>
+    </div>
+  
+    <ng-template #noTestDrives>
+      <div class="alert alert-danger text-center w-50 mx-auto mt-2">
+        <h1>No test drives scheduled yet.</h1>
+      </div>
+    </ng-template>
+    
+</ng-container>
+  

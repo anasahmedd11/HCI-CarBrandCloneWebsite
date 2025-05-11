@@ -50,6 +50,19 @@ export class CareerInternshipsService {
       );
   }
 
+  getStatusMessage(applicantsCount: number): string {
+    if (applicantsCount === 0) {
+      return 'Be the first to apply!';
+    } else if (applicantsCount === 1) {
+      return '1 person has applied';
+    }
+    else if (applicantsCount <= 10) {
+      return `${applicantsCount} people have applied`;
+    } else {
+      return 'Applications closed';
+    }
+  }
+
   determineInternshipStatus(applicantsCount: number): string {
     if (applicantsCount >= 0 && applicantsCount <= 10) {
       return 'Open';

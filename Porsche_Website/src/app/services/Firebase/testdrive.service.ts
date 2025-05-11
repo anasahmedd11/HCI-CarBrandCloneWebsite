@@ -20,6 +20,7 @@ export class TestdriveService {
           return throwError(() => new Error('User must be authenticated to add a test drive'));
         }
 
+        //Use form data and add extras before sending to Firebase
         const dataToSend = {
           fullname: testDrive.fullname,
           email: testDrive.email,
@@ -37,8 +38,6 @@ export class TestdriveService {
     );
   }
 
-  //Transforms the object returned by Firebase into an array of TestDrive objects. 
-  //Each object will include an additional id field taken from the Firebase key.
   getTestDrives() {
     return this.authService.user$.pipe(
       switchMap(user => {
@@ -47,10 +46,14 @@ export class TestdriveService {
         }
 
         return this.http.get<{[key: string]: TestDrive}>(`${this.firebaseDatabaseURL}.json`).pipe(
+          //Response will be in form of key value pair, where key is the id of the test drive and value is the test drive object
+          //Transform the response into an array of TestDrive objects
           map(responseData => {
             const testDriveArray: TestDrive[] = [];
 
             for (const key in responseData) {
+              //Loop through all the test drives, and check if the userId matches the logged-in user's uid.
+              //If yes, add that item to testDriveArray, attaching the Firebase key as id
               if (responseData.hasOwnProperty(key) && responseData[key].userId === user.uid) {
                 testDriveArray.push({...responseData[key], id: key});
               }

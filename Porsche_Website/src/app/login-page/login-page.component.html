@@ -65,7 +65,19 @@
               formControlName="password"
               placeholder="Enter your password"
             />
-          </div>
+            <div
+              *ngIf="
+                getcontrolName('password')?.invalid &&
+                getcontrolName('password')?.touched
+              "
+            >
+              <small
+                class="text-danger"
+                *ngIf="getcontrolName('password')?.errors?.['required']"
+                >Password is required</small
+              > 
+            </div>
+          </div>    
 
           <div class="d-flex justify-content-between align-items-center mb-4">
             <!-- Checkbox -->

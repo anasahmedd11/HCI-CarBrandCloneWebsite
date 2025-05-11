@@ -34,10 +34,8 @@ export class JobTableComponentComponent implements OnInit{
     // Get all jobs
     this.careerJobsService.getJobs().subscribe({
       next: (jobs) => {
-        // originally: this.jobsList = jobs;
-        //...job copies all existing properties of the job object using the spread operator.
-        // This ensures that the original fields like title, location, etc., are preserved 
-        // and a new property (status) is added to each job based on the number of applicants
+        //...job copies all existing properties of the job object using the spread operator and
+        // adds new property (status) is added to each job based on the number of applicants.
         this.jobsList = jobs.map(job => ({
           ...job,
           status: this.careerJobsService.determineJobStatus(job.applicantsCount || 0)
@@ -55,17 +53,7 @@ export class JobTableComponentComponent implements OnInit{
   }
 
   getStatusMessage(applicantsCount: number): string {
-    if (applicantsCount === 0) {
-      return 'Be the first to apply!';
-    } else if (applicantsCount === 1) {
-      return '1 person has applied';
-    } else if (applicantsCount <= 5) {
-      return `${applicantsCount} people have applied`;
-    } else if (applicantsCount <= 10) {
-      return `${applicantsCount} people have applied`;
-    } else {
-      return 'Applications closed';
-    }
+    return this.careerJobsService.getStatusMessage(applicantsCount);
   }
 
   hasAppliedToJob(jobId: string): boolean {
@@ -88,7 +76,7 @@ export class JobTableComponentComponent implements OnInit{
     this.careerJobsService.updateJob(updatedJob).subscribe({
       next: () => {
         // Second, update the local list shown
-        // If a job is found with the same ID as the one we're updating, replace it with the new version
+        // If the current job’s id matches the one applied for, replace it that job object with the updated version 
         this.jobsList = this.jobsList.map(j => 
           j.id === job.id ? updatedJob : j
         );
@@ -110,5 +98,4 @@ export class JobTableComponentComponent implements OnInit{
       }
     });
   }
-  
 }

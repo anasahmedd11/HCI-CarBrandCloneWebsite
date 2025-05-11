@@ -51,20 +51,10 @@ export class InternshipTableComponentComponent implements OnInit {
   }
 
   getStatusMessage(applicantsCount: number): string {
-    if (applicantsCount === 0) {
-      return 'Be the first to apply!';
-    } else if (applicantsCount === 1) {
-      return '1 person has applied';
-    }
-    else if (applicantsCount <= 10) {
-      return `${applicantsCount} people have applied`;
-    } else {
-      return 'Applications closed';
-    }
+    return this.careerInternshipsService.getStatusMessage(applicantsCount);
   }
 
   applyForInternship(intern: InternshipModel) {
-    // Check if user has already applied
     if (this.hasAppliedToInternship(intern.id)) {
       console.log('You have already applied to this internship');
       return;
@@ -80,7 +70,7 @@ export class InternshipTableComponentComponent implements OnInit {
     this.careerInternshipsService.updateInternship(updatedInternship).subscribe({
       next: () => {
         // Second, update the local list shown
-        // If a internship is found with the same ID as the one we're updating, replace it with the new version
+        // If the current intern's id matches the one applied for, replace it that job object with the updated version
         this.internshipsList = this.internshipsList.map(j => 
           j.id === intern.id ? updatedInternship : j
         );

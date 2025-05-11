@@ -7,5 +7,9 @@ import { NgForm } from '@angular/forms';
   styleUrl: './test-drive-page.component.scss'
 })
 export class TestDrivePageComponent {
+  showDetailsSection: boolean = false;
 
+  showDetails() {
+    this.showDetailsSection = true;
+  }
 }

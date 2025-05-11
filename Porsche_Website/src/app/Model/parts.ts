@@ -1,4 +1,3 @@
-// src/app/Model/car-part.model.ts
 export interface CarPartModel {
     id: number;
     name: string;

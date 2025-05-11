@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CartItem } from '../Model/cartItem';
 import { CartService } from '../services/cart.service';
 
@@ -7,9 +7,10 @@ import { CartService } from '../services/cart.service';
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })
-export class CartComponent {
+export class CartComponent implements OnInit {
   cartItems: CartItem[] = [];
   totalItems = 0;
+  totalPrice = 0;
 
   constructor(private cartService: CartService) {}
 
@@ -17,6 +18,7 @@ export class CartComponent {
     this.cartService.cartItems$.subscribe((items: CartItem[]) => {
       this.cartItems = items;
       this.totalItems = this.cartService.getTotalItems();
+      this.totalPrice = this.cartService.getTotalPrice();
     });
   }
 
@@ -29,6 +31,6 @@ export class CartComponent {
   }
 
   getTotalPrice(): number {
-    return this.cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    return this.cartService.getTotalPrice();
   }
 }

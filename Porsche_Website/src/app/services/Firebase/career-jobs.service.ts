@@ -61,6 +61,20 @@ export class CareerJobsService {
     }
   }
 
+  getStatusMessage(applicantsCount: number): string {
+    if (applicantsCount === 0) {
+      return 'Be the first to apply!';
+    } else if (applicantsCount === 1) {
+      return '1 person has applied';
+    } else if (applicantsCount <= 5) {
+      return `${applicantsCount} people have applied`;
+    } else if (applicantsCount <= 10) {
+      return `${applicantsCount} people have applied`;
+    } else {
+      return 'Applications closed';
+    }
+  }
+
   updateJob(job: JobModel) {
     const { id, ...jobData } = job;
     return this.http.patch(`${this.firebaseDatabaseURL}/${id}.json`, jobData);

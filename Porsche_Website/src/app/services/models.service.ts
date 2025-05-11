@@ -8,6 +8,18 @@ export class ModelsService {
 
   constructor() { }
 
+  getVehicles(): VehicleModel[] {
+    return this.vehicles;
+  }
+
+  getModelById(id: number): VehicleModel | undefined {
+    return this.vehicles.find(vehicle => vehicle.id === id);
+  }
+
+  getVehicleByCategory(category: string): VehicleModel[] {
+    return this.vehicles.filter(part => part.category === category);
+  }
+
   vehicles: VehicleModel[] = [
     // EVs
     {
@@ -258,11 +270,4 @@ export class ModelsService {
     },
   ];
 
-  getVehicles(): VehicleModel[] {
-    return this.vehicles;
-  }
-
-  getModelById(id: number): VehicleModel | undefined {
-    return this.vehicles.find(vehicle => vehicle.id === id);
-  }
 }

@@ -1,7 +1,7 @@
 <div class="position-relative" style="height: 80vh; overflow: hidden;">
     <!-- Background image -->
-    <img [src]="carModelDetails?.photo"
-         [alt]="carModelDetails?.name"
+    <img [src]="carModelDetails.photo"
+         [alt]="carModelDetails.name"
          class="w-100 h-100 object-fit-cover position-absolute top-0 start-0">
   
     <!-- Gradient overlay -->
@@ -12,21 +12,21 @@
     <!-- Content over image -->
     <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center">
       <div class="container text-white text-center">
-        <h1 class="display-1 fw-bold">{{ carModelDetails?.name }}</h1>
+        <h1 class="display-1 fw-bold">{{ carModelDetails.name }}</h1>
         <button class="btn btn-secondary mb-5" (click)="addToCart(carModelDetails!)">Add to Cart</button>
       </div>
     </div>
-  </div>
+</div>
   
 <div class="container mt-5">
    
         <div class="col-md-12 d-flex justify-content-center mt-2">
-            <h2 class="display-4 mb-4 text-center">Starting from ${{carModelDetails?.price | number:'1.0-0'}}</h2>   
+            <h2 class="display-4 mb-4 text-center">Starting from ${{carModelDetails.price | number:'1.2-2'}}</h2>   
                  
         </div>
         
         <div class="col-md-12 d-flex justify-content-center mt-2">
-            <p class="text-dark fs-4">{{carModelDetails?.description}}</p>
+            <p class="text-dark fs-4">{{carModelDetails.description}}</p>
         </div>
         
     <div class="row mb-5 mt-5">
@@ -38,7 +38,7 @@
                 <div class="col-md-4">
                     <div class="card h-100 bg-dark text-white">
                         <div class="card-body text-center">
-                            <h3 class="card-title">{{carModelDetails?.horsepower}} HP</h3>
+                            <h3 class="card-title">{{carModelDetails.horsepower}} HP</h3>
                             <p class="card-text">Horsepower <i class="fas fa-horse-head"></i></p>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                 <div class="col-md-4">
                     <div class="card h-100 bg-dark text-white">
                         <div class="card-body text-center">
-                            <h3 class="card-title">{{carModelDetails?.acceleration}}s</h3>
+                            <h3 class="card-title">{{carModelDetails.acceleration}}s</h3>
                             <p class="card-text"> Acceleration (0-100 km/h) <i class="fa-solid fa-jet-fighter-up"></i></p>
                         </div>
                     </div>  
@@ -56,7 +56,7 @@
                 <div class="col-md-4">
                     <div class="card h-100 bg-dark text-white">
                         <div class="card-body text-center">
-                            <h3 class="card-title">{{carModelDetails?.topSpeed}} mph</h3>
+                            <h3 class="card-title">{{carModelDetails.topSpeed}} mph</h3>
                             <p class="card-text">Top Speed <i class="fas fa-tachometer-alt"></i></p>
                         </div>
                     </div>
@@ -64,17 +64,27 @@
 
                 <div class="col-md-4">
                     <div class="card h-100 bg-dark text-white">
-                        <div class="card-body text-center">
-                            <h3 class="card-title">{{carModelDetails?.cylinderCapacity}} CC</h3>
+                        <div class="card-body text-center" *ngIf="carModelDetails?.cylinderCapacity; else nocapacity">
+                            <h3 class="card-title">{{carModelDetails.cylinderCapacity}} CC</h3>
                             <p class="card-text">Engine Capacity <i class="fa-solid fa-gas-pump"></i></p>
                         </div>
                     </div>
+
+                    <ng-template #nocapacity>
+                        <div class="card h-100 bg-dark text-white">
+                            <div class="card-body text-center">
+                                <h3 class="card-title">N/A</h3>
+                                <p class="card-text">Engine Capacity <i class="fa-solid fa-gas-pump"></i></p>
+                            </div>
+                        </div>
+                    </ng-template>
+                    
                 </div>
 
                 <div class="col-md-4">
                     <div class="card h-100 bg-dark text-white">
                         <div class="card-body text-center">
-                            <h3 class="card-title">{{carModelDetails?.transmission}}</h3>
+                            <h3 class="card-title">{{carModelDetails.transmission}}</h3>
                             <p class="card-text">Transmission <i class="bi bi-joystick"></i></p>
                         </div>
                     </div>
@@ -83,7 +93,7 @@
                 <div class="col-md-4">
                     <div class="card h-100 bg-dark text-white">
                         <div class="card-body text-center">
-                            <h3 class="card-title">{{carModelDetails?.torque}} Nm</h3>
+                            <h3 class="card-title">{{carModelDetails.torque}} Nm</h3>
                             <p class="card-text">Torque <i class="fa-solid fa-gears"></i></p>
                         </div>
                     </div>
@@ -107,7 +117,7 @@
 
             <div class="text-center mt-3">
                 <p class="text-muted" *ngIf="carModelDetails?.colors?.length">
-                    Available in {{carModelDetails?.colors?.length}} colors
+                    Available in {{carModelDetails.colors.length}} colors
                 </p>
             </div>
 

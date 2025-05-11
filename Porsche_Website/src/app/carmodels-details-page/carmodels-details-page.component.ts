@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { VehicleModel } from '../Model/vehicle';
 import { CartService } from '../services/cart.service';
 import { ColorService } from '../services/color.service';
@@ -8,14 +8,27 @@ import { ModelsService } from '../services/models.service';
 @Component({
   selector: 'app-carmodels-details-page',
   templateUrl: './carmodels-details-page.component.html',
-  styleUrl: './carmodels-details-page.component.scss'
+  styleUrl: './carmodels-details-page.component.scss',
 })
 export class CarmodelsDetailsPageComponent {
-  carModelDetails: VehicleModel | undefined;
+  carModelDetails: VehicleModel;
 
-  constructor(private route: ActivatedRoute, private modelService: ModelsService, private colorService: ColorService, private cartService: CartService){
+  constructor(
+    private route: ActivatedRoute,
+    private modelService: ModelsService,
+    private colorService: ColorService,
+    private cartService: CartService,
+    private router: Router
+  ) {
     const modelId = Number(this.route.snapshot.paramMap.get('id'));
-    this.carModelDetails = this.modelService.getModelById(modelId);
+    const existingModel = this.modelService.getModelById(modelId);
+
+    if (!existingModel) {
+      this.router.navigate(['/not-found']);
+      return;
+    }
+  
+    this.carModelDetails = existingModel;
   }
 
   getColorHex(colorName: string): string {
@@ -27,7 +40,7 @@ export class CarmodelsDetailsPageComponent {
       id: model.id,
       name: model.name,
       price: model.price,
-      quantity: 1
+      quantity: 1,
     });
   }
 }

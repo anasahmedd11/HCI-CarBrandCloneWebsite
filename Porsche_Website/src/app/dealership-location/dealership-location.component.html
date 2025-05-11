@@ -1,18 +1,25 @@
 <div class="card mb-3 border-0 bg-dark text-white" style="max-width: 400px; height: 100%;">
+
     <img [src]="dealershipLocation.photo" class="img-fluid h-100 w-100 rounded-start object-fit-cover" 
     alt="Exterior photo of {{dealershipLocation.name}}">
+
     <div class="card-body">
+
       <h5 class="card-title">{{ dealershipLocation.name }}</h5>
+
       <p class="card-text">
         <i class="bi bi-globe-americas me-2" style="font-size: 1.2rem; color: rgb(223, 88, 88);"></i>
         {{ dealershipLocation.country }}
       </p>
+
       <p class="card-text">
         <i class="bi bi-geo-fill me-2" style="font-size: 1.2rem; color: rgb(223, 88, 88);"></i>
         {{ dealershipLocation.city }}
       </p>
+
       <div class="d-flex justify-content-end">
-        <button class="btn btn-secondary btn-sm" (click)="openMap()">View on Map</button>
+        <button class="btn btn-secondary btn-sm fw-bold" (click)="openMap()">View on Map</button>
       </div>
+      
     </div>
 </div>

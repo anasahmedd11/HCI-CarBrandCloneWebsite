@@ -8,6 +8,18 @@ export class PartsService {
 
   constructor() { }
 
+  getParts(): CarPartModel[] {
+    return this.carParts;
+  }
+
+  getPartsByCategory(category: string): CarPartModel[] {
+    return this.carParts.filter(part => part.category === category);
+  }
+
+  getAvailableParts(): CarPartModel[] {
+    return this.carParts.filter(part => part.availability);
+  }
+
   carParts: CarPartModel[] = [
     {
       id: 1,
@@ -121,16 +133,5 @@ export class PartsService {
     },
   ];
 
-  getParts(): CarPartModel[] {
-    return this.carParts;
-  }
-
-  getPartsByCategory(category: string): CarPartModel[] {
-    return this.carParts.filter(part => part.category === category);
-  }
-
-  getAvailableParts(): CarPartModel[] {
-    return this.carParts.filter(part => part.availability);
-  }
 }
 

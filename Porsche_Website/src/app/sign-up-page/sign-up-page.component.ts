@@ -31,20 +31,15 @@ export class SignUpPageComponent {
         dynamicForbiddenUserNameValidator(this.forbiddenName2),
       ]),
       email: this.formBuilder.control('', [Validators.required, Validators.email]),
-      password: this.formBuilder.control(''),
-      confirmPassword: this.formBuilder.control(''),
-      rememberMe: this.formBuilder.control(false),
+      password: this.formBuilder.control('', [
+        Validators.required,
+        Validators.minLength(6)
+      ]),
+      confirmPassword: this.formBuilder.control('', [
+        Validators.required
+      ]),
+      sendMe: this.formBuilder.control(false)
     },{ validator: [confirmPasswordValidator] });
-
-    this.signUpForm.get('rememberMe')?.valueChanges.subscribe(checked => {
-      const emailControl = this.signUpForm.get('email');
-      if (checked) {
-        emailControl?.setValidators([Validators.required, Validators.email]);
-      } else {
-        emailControl?.clearValidators();
-      }
-      emailControl?.updateValueAndValidity();
-    });
   }
 
   getcontrolName(controlName: string) {
@@ -57,8 +52,14 @@ export class SignUpPageComponent {
         await this.authService.signUp(this.signUpForm.value.email, this.signUpForm.value.password);
         this.router.navigate(['/home']);
       } catch (error: any) {
-        this.errorMessage = 'An error occurred during account creation';
+        switch (error.code) {
+          case 'auth/email-already-in-use':
+            this.errorMessage = 'This email is already registered. Please use a different email or try logging in.';
+            break;
+          default:
+            this.errorMessage = 'An error occurred during account creation. Please try again.';
+        }
       }
-    }
+    } 
   }
 }

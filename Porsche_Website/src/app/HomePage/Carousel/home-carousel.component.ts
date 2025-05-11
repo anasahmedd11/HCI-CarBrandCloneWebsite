@@ -8,11 +8,11 @@ import { Observable } from 'rxjs';
   styleUrl: './home-carousel.component.scss',
 })
 export class HomeCarouselComponent {
-  user$!: Observable<any>;
+  // user$!: Observable<any>;
 
-  constructor(private authService: AuthService) {}
+  // constructor(private authService: AuthService) {}
 
-  ngOnInit() {
-    this.user$ = this.authService.user$;
-  }
+  // ngOnInit() {
+  //   this.user$ = this.authService.user$;
+  // }
 }

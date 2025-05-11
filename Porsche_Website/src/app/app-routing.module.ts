@@ -26,8 +26,11 @@ const routes: Routes = [
   {path: 'models', component: CarmodelsPageComponent, canActivate: [AuthGuard], title: 'Models'},
   { path: 'details/:id', component: CarmodelsDetailsPageComponent, canActivate: [AuthGuard],title: 'Details' },
   { path: 'cart', component: CartComponent, canActivate: [AuthGuard], title: 'Cart' },
+  //Redirects the user to /login when they visit the root URL of the app (http://localhost:4200/).
+  //pathMatch: 'full': Ensures that the redirection only happens when the full path is empty
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'not-found', component: PageNotFoundComponent,data:{message:"Page not found from route"} },
+  { path: 'not-found', component: PageNotFoundComponent},
+  //Wildcard route matches any path that isn't defined in the routes array
   { path: '**', redirectTo: '/not-found' },
 ];
 
